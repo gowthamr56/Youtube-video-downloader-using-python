@@ -21,6 +21,7 @@ def checkingInternet(url='https://pynerds.blogspot.com/'):
 # downloads the file
 def downlaod(format, video_id, extension):
     op_path = f"{os.path.expanduser('~')}/Downloads"
+    print(op_path)
     format.download(output_path=op_path, filename=f"{video_id}.{extension}")
 
 with header:
