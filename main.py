@@ -18,12 +18,20 @@ def checkingInternet(url='https://pynerds.blogspot.com/'):
     except:
         return False
 
-# downloads the file
-def downlaod(format, video_id, extension):
+# getting file path
+def filePath(format, video_id, extension):
     op_path = f"{os.path.expanduser('~')}/Downloads"
     path = format.download(output_path=op_path, filename=f"{video_id}.{extension}")
     return path
-    
+
+# downloading files
+def download(video, video_id, extension):
+    with open(filePath(video, video_id, extension), 'rb') as file:
+        d = st.download_button(label=f"Download - {size}MB", data=file, file_name=f"{video_id}.{extension}")
+    if d:
+        with body:
+            st.success('Download was successfull')
+
 with header:
     st.title('YouTube audio & video downloader')
 
@@ -67,29 +75,17 @@ try:
                                 video = streams.get_highest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
                                 # d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
-                                with open(downlaod(video, video_id, 'mp4'), 'rb') as file:
-                                    d = st.download_button(
-                                        label=f"Download - {size}MB",
-                                        data=file,
-                                        file_name=f"{video_id}.mp4"
-                                    )
-                                if d:
-                                    with body:
-                                        st.success('Download was successfull')
+                                download(video, video_id, 'mp4')
                             elif res == avail_res[2]:
                                 video = streams.get_lowest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
-                                if d:
-                                    with body:
-                                        st.success('Download was successfull')
+                                # d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
+                                download(video, video_id, 'mp4')
                         else:
                             audio = streams.filter(only_audio=True).first()
                             size = round((audio.filesize / 1024) / 1024, 2)
-                            d = st.button(f'Download - {size}MB', on_click=downlaod(audio, video_id, 'mp3'))
-                            if d:
-                                with body:
-                                    st.success('Download was successfull')
+                            # d = st.button(f'Download - {size}MB', on_click=downlaod(audio, video_id, 'mp3'))
+                            download(audio, video_id, 'mp3')
                 else:
                     st.warning('Enter a valid YouTube URL')
         else:
