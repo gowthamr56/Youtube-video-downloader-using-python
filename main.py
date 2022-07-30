@@ -21,7 +21,7 @@ def checkingInternet(url='https://pynerds.blogspot.com/'):
 # downloads the file
 def downlaod(format, video_id, extension):
     op_path = f"{os.path.expanduser('~')}/Downloads"
-    format.download(output_path=op_path, filename=f"{video_id}.{extension}")
+    path = format.download(output_path=op_path, filename=f"{video_id}.{extension}")
 
 with header:
     st.title('YouTube audio & video downloader')
@@ -65,7 +65,13 @@ try:
                             if res == avail_res[1]:
                                 video = streams.get_highest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
+                                # d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
+                                with open(downlaod(video, video_id, 'mp4'), 'rb') as file:
+                                    d = st.download_button(
+                                        label=f"Download - {size}MB",
+                                        data=file,
+                                        file_name=f"{video_id}.mp4"
+                                    )
                                 if d:
                                     with body:
                                         st.success('Download was successfull')
