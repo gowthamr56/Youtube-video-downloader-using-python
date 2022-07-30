@@ -4,6 +4,7 @@ import streamlit as st
 import pytube
 import pytube.exceptions as py_exp
 import requests
+import os
 
 # containers
 header = st.container() 
@@ -19,7 +20,8 @@ def checkingInternet(url='https://pynerds.blogspot.com/'):
 
 # downloads the file
 def downlaod(format):
-    format.download()
+    op_path = f"{os.path.expanduser('~')}/Downloads"
+    format.download(output_path=op_path)
 
 with header:
     st.title('YouTube audio & video downloader')
