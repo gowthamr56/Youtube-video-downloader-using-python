@@ -19,9 +19,9 @@ def checkingInternet(url='https://pynerds.blogspot.com/'):
         return False
 
 # downloads the file
-def downlaod(format):
+def downlaod(format, video_id, extension):
     op_path = f"{os.path.expanduser('~')}/Downloads"
-    format.download(output_path=op_path)
+    format.download(output_path=op_path, filename=f"{video_id}.{extension}")
 
 with header:
     st.title('YouTube audio & video downloader')
@@ -39,6 +39,7 @@ try:
                 if is_link_valid:
                     
                     yt = pytube.YouTube(link)
+                    video_id = yt.video_id
                     streams = yt.streams
 
                     # avail_res = []
@@ -64,21 +65,21 @@ try:
                             if res == avail_res[1]:
                                 video = streams.get_highest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                d = st.button(f'Download - {size}MB', on_click=downlaod(video))
+                                d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
                                 if d:
                                     with body:
                                         st.success('Download was successfull')
                             elif res == avail_res[2]:
                                 video = streams.get_lowest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                d = st.button(f'Download - {size}MB', on_click=downlaod(video))
+                                d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
                                 if d:
                                     with body:
                                         st.success('Download was successfull')
                         else:
                             audio = streams.filter(only_audio=True).first()
                             size = round((audio.filesize / 1024) / 1024, 2)
-                            d = st.button(f'Download - {size}MB', on_click=downlaod(audio))
+                            d = st.button(f'Download - {size}MB', on_click=downlaod(audio, video_id, 'mp3'))
                             if d:
                                 with body:
                                     st.success('Download was successfull')
