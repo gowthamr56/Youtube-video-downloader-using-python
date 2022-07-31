@@ -39,7 +39,7 @@ try:
     with body:
         if checkingInternet():
             # get input from the user
-            link = st.text_input(label='Enter YouTube URL',placeholder='Paste your link here')
+            link = st.text_input(label='Enter YouTube URL 👇',placeholder='Paste your link here')
 
             if link:
                 # checks the link is valid or not
@@ -50,14 +50,6 @@ try:
                     yt = pytube.YouTube(link)
                     video_id = yt.video_id
                     streams = yt.streams
-
-                    # avail_res = []
-                    # for stream in streams:
-                    #     res = stream.resolution
-                    #     if (res in avail_res) or (res == None):
-                    #         continue
-                    #     else:
-                    #         avail_res.append(res)
                     
                     col1, col2 = st.columns(2)
                     with col1:
@@ -74,17 +66,14 @@ try:
                             if res == avail_res[1]:
                                 video = streams.get_highest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                # d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
                                 download(video, video_id, 'mp4')
                             elif res == avail_res[2]:
                                 video = streams.get_lowest_resolution()
                                 size = round((video.filesize / 1024) / 1024, 2)
-                                # d = st.button(f'Download - {size}MB', on_click=downlaod(video, video_id, 'mp4'))
                                 download(video, video_id, 'mp4')
                         else:
                             audio = streams.filter(only_audio=True).first()
                             size = round((audio.filesize / 1024) / 1024, 2)
-                            # d = st.button(f'Download - {size}MB', on_click=downlaod(audio, video_id, 'mp3'))
                             download(audio, video_id, 'mp3')
                 else:
                     st.warning('Enter a valid YouTube URL')
