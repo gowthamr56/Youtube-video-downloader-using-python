@@ -6,9 +6,13 @@ import pytube.exceptions as py_exp
 import requests
 import os
 from PIL import Image
+from urllib import request
 
 # changing icon and title of the app
-img = Image.open(r'images\download_icon.jpg')
+img_url = 'https://media.istockphoto.com/vectors/download-button-vector-icon-vector-id931778082?k=20&m=931778082&s=612x612&w=0&h=5CQAdq8PGCKIEZXNGb-IS5fiBEB-TxSqYlR9Wj2HHnI='
+# getting image from online
+request.urlretrieve(img_url, "img")
+img = Image.open("img")
 st.set_page_config(page_title='Youtube Downloader',page_icon=img)
 
 # removing/hiding main menu and footer note
