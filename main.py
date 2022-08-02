@@ -5,6 +5,25 @@ import pytube
 import pytube.exceptions as py_exp
 import requests
 import os
+from PIL import Image
+
+# changing icon and title of the app
+img = Image.open(r'images\download_icon.jpg')
+st.set_page_config(page_title='Youtube Downloader',page_icon=img)
+
+# removing/hiding main menu and footer note
+st.markdown(
+    """
+    <style>
+        #MainMenu{
+            visibility: hidden;
+        }
+        footer{
+            visibility: hidden;
+        }
+    </style> 
+    """,unsafe_allow_html=True
+)
 
 # containers
 header = st.container() 
